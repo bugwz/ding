@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/twilio/twilio-go"
+	twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
 )
 
 // SMSConfig 短信配置
@@ -21,7 +22,7 @@ func SendSMS(config SMSConfig, to string, message string) error {
 		Password: config.AuthToken,
 	})
 
-	params := &v2010.CreateMessageParams{}
+	params := &twilioApi.CreateMessageParams{}
 	params.SetTo(to)
 	params.SetFrom(config.From)
 	params.SetBody(message)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -61,5 +62,17 @@ func main() {
 		}
 	} else {
 		fmt.Println("Usage: ding [mail|sms|mail,sms]")
+	}
+	// 删除重复调用系统弹窗提醒的代码
+	// 调用系统弹窗提醒
+	notifier, err := pkg.GetNotifier("system")
+	if err != nil {
+		log.Fatalf("Failed to get notifier: %v", err)
+	}
+	message := "这是一条系统弹窗提醒"
+	subject := "系统提醒"
+	recipient := ""
+	if err := notifier.SendNotification(recipient, subject, message); err != nil {
+		log.Fatalf("Failed to send notification: %v", err)
 	}
 }

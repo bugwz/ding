@@ -55,7 +55,23 @@ func GetNotifier(configType string) (Notifier, error) {
 			From:       config.Section("sms").Key("from").String(),
 		}
 		return &SMSNotifier{Config: smsConfig}, nil
+	case "system":
+		err := SendSystemNotification("")
+		if err != nil {
+			return nil, err
+		}
+		return &SystemNotifier{Config: SystemConfig{}}, nil
 	default:
 		return nil, fmt.Errorf("Unsupported notification type: %s", configType)
 	}
+}
+
+// SystemNotifier 系统通知结构体
+type SystemNotifier struct {
+	Config SystemConfig
+}
+
+// SendNotification 实现系统通知接口方法
+func (s *SystemNotifier) SendNotification(recipient, subject, message string) error {
+	return SendSystemNotification(message)
 }
