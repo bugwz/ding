@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"../pkg/notify"
+	"github.com/bugwz/ding/pkg"
 )
 
 var Version = "dev" // Version information is injected at compile time
@@ -49,7 +49,7 @@ func main() {
 		// Support multiple parameters, e.g., ding mail,sms
 		args := strings.Split(os.Args[1], ",")
 		for _, arg := range args {
-			notifier, err := notify.GetNotifier(arg)
+			notifier, err := pkg.GetNotifier(arg)
 			if err != nil {
 				fmt.Printf("Error getting notifier: %v\n", err)
 				continue
