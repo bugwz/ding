@@ -25,13 +25,13 @@ archives:
 
 nfpms:
   - id: "default"
-  - ids: [ default ]
+    ids: [ default ]
     formats:
       - deb
       - rpm
     file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
     vendor: "bugwz"
-    maintainer: "bugwz<xbugwz@gmail.com>"
+    maintainer: "bugwz <xbugwz@gmail.com>"
     homepage: "https://bugwz.com"
     description: "Ding Project"
     license: "MIT"
