@@ -7,10 +7,10 @@ before:
 builds:
   - main: ./cmd/main.go
     id: default
-    binary: ding_{{.Os}}_{{.Arch}}
     flags: -trimpath
     ldflags:
-      - -s -w -X main.Version={{ .Env.VERSION }} -X main.commit={{ .Env.COMMIT }}
+      - -s -w -X main.Version={{ .Env.VERSION }} -X main.Commit={{ .Env.COMMIT }}
+    binary: ding
     env:
       - CGO_ENABLED=0
     goos:
@@ -19,24 +19,24 @@ builds:
     goarch:
       - amd64
       - arm64
-    goarm:
-      - 6
-    goamd64:
-      - v1
 
 archives:
-  - id: default
-    ids: [ default ]
-    formats: [ "zip", "tar.gz", "binary"]
-    name_template: 'ding_{{.Os}}_{{.Arch}}'
+  - id: binary
+    ids: [default]
+    formats: ["binary"]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Commit }}_{{ .Os }}_{{ .Arch }}"
+  - id: archive
+    ids: [default]
+    formats: ["zip", "tar.gz"]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Commit }}_{{ .Os }}_{{ .Arch }}"
 
 nfpms:
   - id: default
-    ids: [ default ]
+    ids: [default]
     formats:
       - deb
       - rpm
-    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Commit }}_{{ .Os }}_{{ .Arch }}"
     vendor: "bugwz"
     maintainer: "bugwz <xbugwz@gmail.com>"
     homepage: "https://bugwz.com"
@@ -45,14 +45,12 @@ nfpms:
 
 brews:
   - name: ding
-    ids: [ default ]
-    goarm: 6
-    goamd64: v1
+    ids: [binary]
     commit_author:
-      name: ci-bot
-      email: ci@example.com
+      name: bugwz
+      email: xbugwz@gmail.com
     directory: Formula
-    homepage: http://github.com/bugwz/ding
+    homepage: https://github.com/bugwz/ding
     description: "Cross-platform CLI tool"
     install: |
       bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"

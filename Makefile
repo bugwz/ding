@@ -8,7 +8,7 @@ GOPROXY := GOPROXY=https://goproxy.cn
 DIST_DIR := ./dist
 
 build:
-	@$(GOPROXY) go install github.com/goreleaser/goreleaser@latest
+	@$(GOPROXY) go install "github.com/goreleaser/goreleaser/v2@v2.8.1"
 	@mkdir -p $(DIST_DIR)
 	go build $(LDFLAGS) -o $(DIST_DIR)/ding ./cmd/main.go
 
@@ -38,7 +38,7 @@ test:
 	go test -v -race ./...
 
 package: build
-	 VERSION=$(VERSION) COMMIT=$(COMMIT) $(GOPROXY) go run github.com/goreleaser/goreleaser@latest release --clean --snapshot
+	 VERSION=$(VERSION) COMMIT=$(COMMIT) $(GOPROXY) go run "github.com/goreleaser/goreleaser/v2@v2.8.1" release --clean --snapshot
 
 clean:
 	rm -rf $(DIST_DIR)

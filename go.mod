@@ -1,6 +1,6 @@
 module github.com/bugwz/ding
 
-go 1.21
+go 1.24
 
 require (
 	github.com/twilio/twilio-go v1.24.0
