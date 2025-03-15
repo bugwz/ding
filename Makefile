@@ -1,39 +1,44 @@
 .PHONY: build run test clean package
 
 VERSION := $(shell cat ./Version)
-LDFLAGS := -ldflags "-X main.Version=$(VERSION)"
+COMMIT := $(shell git rev-parse --short HEAD)
+LDFLAGS := -ldflags "-X main.Version=$(VERSION) -X main.Commit=$(COMMIT)"
+GOPROXY := GOPROXY=https://goproxy.cn
+
+DIST_DIR := ./dist
 
 build:
-	@mkdir -p ./dist
-	GOPROXY=https://goproxy.cn go install github.com/goreleaser/goreleaser@latest
-	go build -o ./dist/ding ./cmd/main.go
+	@$(GOPROXY) go install github.com/goreleaser/goreleaser@latest
+	@mkdir -p $(DIST_DIR)
+	go build $(LDFLAGS) -o $(DIST_DIR)/ding ./cmd/main.go
+
+define build_cross
+	@mkdir -p $(DIST_DIR)/$(1)-$(2)
+	GOOS=$(1) GOARCH=$(2) $(GOPROXY) go build $(LDFLAGS) -o $(DIST_DIR)/$(1)-$(2)/ding ./cmd/main.go
+endef
 
 build-all: linux-amd64 linux-arm64 darwin-amd64 darwin-arm64
 
 linux-amd64:
-	@mkdir -p ./dist/linux-amd64
-	GOOS=linux GOARCH=amd64 go build -o ./dist/linux-amd64/ding ./cmd/main.go
+	$(call build_cross,linux,amd64)
 
 linux-arm64:
-	@mkdir -p ./dist/linux-arm64
-	GOOS=linux GOARCH=arm64 go build -o ./dist/linux-arm64/ding ./cmd/main.go
+	$(call build_cross,linux,arm64)
 
 darwin-amd64:
-	@mkdir -p ./dist/darwin-amd64
-	GOOS=darwin GOARCH=amd64 go build -o ./dist/darwin-amd64/ding ./cmd/main.go
+	$(call build_cross,darwin,amd64)
 
 darwin-arm64:
-	@mkdir -p ./dist/darwin-arm64
-	GOOS=darwin GOARCH=arm64 go build -o ./dist/darwin-arm64/ding ./cmd/main.go
+	$(call build_cross,darwin,arm64)
 
 run:
 	go run ./cmd/main.go
 
 test:
-	go test -v ./...
+	go test -v -race ./...
 
 package: build
-	GOPROXY=https://goproxy.cn go run github.com/goreleaser/goreleaser@latest release --clean --snapshot
+	 VERSION=$(VERSION) COMMIT=$(COMMIT) $(GOPROXY) go run github.com/goreleaser/goreleaser@latest release --clean --snapshot
 
 clean:
-	rm -rf ./dist
+	rm -rf $(DIST_DIR)

@@ -3,7 +3,8 @@ before:
     - go mod download
 
 builds:
-  - env:
+  - id: "default"
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -14,27 +15,41 @@ builds:
       - arm64
     flags: -trimpath
     ldflags:
-      - -s -w -X main.Version=$(shell cat ./Version)
+      - -s -w -X main.Version={{ .Env.VERSION }} -X main.commit={{ .Env.COMMIT }}
+    binary: ding_{{.Os}}_{{.Arch}}
 
 archives:
   - id: binary_archive
     format: binary
     name_template: 'ding_{{.Os}}_{{.Arch}}'
 
+nfpms:
+  - id: "default"
+    builds:
+      - "default"
+    formats:
+      - deb
+      - rpm
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+    vendor: "bugwz"
+    maintainer: "bugwz<xbugwz@gmail.com>"
+    homepage: "https://bugwz.com"
+    description: "Ding Project"
+    license: "MIT"
+
 brews:
   - name: ding
-    tap:
+    repository:
       owner: bugwz
       name: homebrew-tap
-    # url: https://github.com/bugwz/homebrew-tap
     commit_author:
       name: ci-bot
       email: ci@example.com
-    folder: Formula
-    homepage: https://github.com/bugwz/ding
-    description: Cross-platform CLI tool
+    directory: Formula
+    homepage: http://github.com/bugwz/ding
+    description: "Cross-platform CLI tool"
     install: |
-      bin.install "ding_darwin_#{Hardware::CPU.intel? ? "amd64" : "arm64"}" => "ding"
+      bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
       mkdir_p "#{etc}/ding"
       cp "#{buildpath}/config/default.ini", "#{etc}/ding/default.ini"
     test: system "#{bin}/ding --version"
