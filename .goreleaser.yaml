@@ -14,6 +14,10 @@ builds:
     goarch:
       - amd64
       - arm64
+    goarm:
+      - 6
+    goamd64:
+      - v1
     main: ./cmd/main.go
     flags: -trimpath
     ldflags:
@@ -41,9 +45,8 @@ nfpms:
 brews:
   - name: ding
     ids: [ default ]
-    repository:
-      owner: bugwz
-      name: homebrew-tap
+    goarm: 6
+    goamd64: v1
     commit_author:
       name: ci-bot
       email: ci@example.com
@@ -51,6 +54,10 @@ brews:
     homepage: http://github.com/bugwz/ding
     description: "Cross-platform CLI tool"
     install: |
-      bin.install "ding_{{.Os}}_{{.Arch}}" => "ding"
+      bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
+      mkdir_p "#{etc}/ding"
       cp "#{buildpath}/config/default.ini", "#{etc}/ding/default.ini"
     test: system "#{bin}/ding --version"
+    repository:
+      owner: bugwz
+      name: homebrew-tap
