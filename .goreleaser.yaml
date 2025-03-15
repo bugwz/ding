@@ -41,6 +41,7 @@ brews:
     repository:
       owner: bugwz
       name: homebrew-tap
+    ids: [ default ]
     commit_author:
       name: ci-bot
       email: ci@example.com
