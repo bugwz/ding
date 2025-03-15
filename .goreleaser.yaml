@@ -20,13 +20,12 @@ builds:
 
 archives:
   - id: binary_archive
-    format: binary
+    formats: [ "tar.gz", "binary"]
     name_template: 'ding_{{.Os}}_{{.Arch}}'
 
 nfpms:
   - id: "default"
-    builds:
-      - "default"
+  - ids: [ default ]
     formats:
       - deb
       - rpm
