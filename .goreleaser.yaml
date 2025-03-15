@@ -14,10 +14,6 @@ builds:
     goarch:
       - amd64
       - arm64
-    goarm:
-      - 6
-    goamd64:
-      - v1
     main: ./cmd/main.go
     flags: -trimpath
     ldflags:
