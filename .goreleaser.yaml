@@ -22,7 +22,7 @@ builds:
 
 archives:
   - id: binary_archive
-    formats: [ "tar.gz", "binary"]
+    formats: [ "zip", "tar.gz", "binary"]
     name_template: 'ding_{{.Os}}_{{.Arch}}'
 
 nfpms:
