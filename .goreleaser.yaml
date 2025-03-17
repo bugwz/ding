@@ -5,38 +5,51 @@ before:
     - go mod download
 
 builds:
-  - main: ./cmd/main.go
-    id: default
+  -
+    id: ding-build
+    main: ./cmd/main.go
+    binary: ding
     flags: -trimpath
     ldflags:
       - -s -w -X main.Version={{ .Env.VERSION }} -X main.Commit={{ .Env.COMMIT }}
-    binary: ding
     env:
       - CGO_ENABLED=0
     goos:
       - linux
       - darwin
     goarch:
-      - amd64
+      - arm
       - arm64
+      - amd64
+    goarm:
+      - 6
+    goarm64:
+      - v8.0
+    goamd64:
+      - v1
 
 archives:
-  - id: binary
-    ids: [default]
+  -
+    id: ding-binary
+    ids:
+      - ding-build
     formats: ["binary"]
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Commit }}_{{ .Os }}_{{ .Arch }}"
-  - id: archive
-    ids: [default]
-    formats: ["zip", "tar.gz"]
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Commit }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  -
+    id: ding-archive
+    ids:
+      - ding-build
+    formats: ["tar.gz"]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 nfpms:
   - id: default
-    ids: [default]
+    ids:
+      - ding-build
     formats:
       - deb
       - rpm
-    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Commit }}_{{ .Os }}_{{ .Arch }}"
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     vendor: "bugwz"
     maintainer: "bugwz <xbugwz@gmail.com>"
     homepage: "https://bugwz.com"
@@ -44,8 +57,12 @@ nfpms:
     license: "MIT"
 
 brews:
-  - name: ding
-    ids: [binary]
+  -
+    name: ding
+    ids:
+      - ding-binary
+    goarm: 6
+    goamd64: v1
     commit_author:
       name: bugwz
       email: xbugwz@gmail.com

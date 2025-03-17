@@ -24,7 +24,7 @@ jobs:
       - name: Read Git Version and Commmit
         run: |
           echo "VERSION=$(cat Version)" >> $GITHUB_ENV
-          echo  "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
