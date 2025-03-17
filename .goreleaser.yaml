@@ -4,6 +4,15 @@ before:
   hooks:
     - go mod download
 
+checksum:
+  disable: true
+
+changelog:
+  disable: true
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-{{.ShortCommit}}"
+
 builds:
   -
     id: ding-build
