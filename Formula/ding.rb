@@ -14,7 +14,7 @@ class Ding < Formula
           "Accept: application/octet-stream",
           "Authorization: bearer #{ENV["HOMEBREW_GITHUB_API_TOKEN"]}"
         ]
-      sha256 "d309e4c0600a232f599288827495516ad5bdc1a3549701654f3092860ed5460e"
+      sha256 "0ebe483d6ccfa436649ddb7c951afa3d246146200e22754563e732e9f309e372"
 
       def install
         bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
@@ -28,7 +28,7 @@ class Ding < Formula
           "Accept: application/octet-stream",
           "Authorization: bearer #{ENV["HOMEBREW_GITHUB_API_TOKEN"]}"
         ]
-      sha256 "59df0291eb4825d93544e930df315bcb96606c8edd44d3f96484efffddffc8fb"
+      sha256 "006e200665a7c1574236e5ef913daa87228583d0cef576ec7f949f9d939eb5d8"
 
       def install
         bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
@@ -46,7 +46,7 @@ class Ding < Formula
             "Accept: application/octet-stream",
             "Authorization: bearer #{ENV["HOMEBREW_GITHUB_API_TOKEN"]}"
           ]
-        sha256 "928d0bad3d5d2adacf189da333916a20f807c292fd43f633ee967a725a32e192"
+        sha256 "b2ebd17b11b192ee1f3e6502986bb6833fd4f64c42aa0f116f745f627ab1ecc6"
 
         def install
           bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
@@ -62,7 +62,7 @@ class Ding < Formula
             "Accept: application/octet-stream",
             "Authorization: bearer #{ENV["HOMEBREW_GITHUB_API_TOKEN"]}"
           ]
-        sha256 "eaae0b65c062712b207ff212d47535d94a2170d6a861685ad8078c038b5b5b66"
+        sha256 "de82f64456512b2286d4cb3f13d55bd2f6189828fe726ec9ca8a73e43185b486"
 
         def install
           bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
@@ -78,7 +78,7 @@ class Ding < Formula
             "Accept: application/octet-stream",
             "Authorization: bearer #{ENV["HOMEBREW_GITHUB_API_TOKEN"]}"
           ]
-        sha256 "0cbfd86ca38d71345ec2abff15ece022ac152f773657d724fbb83272f8e41ced"
+        sha256 "f9f4a3cfd09356f40d31a083ded5a31807aae5c1f9c16cc8959bff14c1dc60ef"
 
         def install
           bin.install "ding_darwin_#{Hardware::CPU.intel? ? 'amd64' : 'arm64'}" => "ding"
