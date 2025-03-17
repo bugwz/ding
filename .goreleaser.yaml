@@ -59,9 +59,6 @@ nfpms:
 brews:
   -
     name: ding
-    alternative_names:
-      - ding@{{ .Version }}
-      - ding@{{ .Major }}
     ids:
       - ding-binary
     goarm: 6
