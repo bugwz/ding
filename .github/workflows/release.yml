@@ -18,7 +18,7 @@ jobs:
         with:
           go-version: stable
 
-      - name: Read version
+      - name: Read Git Version and Commmit
         run: |
           echo "VERSION=$(cat Version)" >> $GITHUB_ENV
           echo  "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
