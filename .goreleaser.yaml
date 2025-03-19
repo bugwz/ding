@@ -81,3 +81,4 @@ brews:
       owner: bugwz
       name: homebrew-ding
       branch: main
+      token: "{{ .Env.HOMEBREW_DING_TOKEN }}"
