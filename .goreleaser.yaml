@@ -44,12 +44,6 @@ archives:
       - ding-build
     formats: ["binary"]
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-  -
-    id: ding-archive
-    ids:
-      - ding-build
-    formats: ["tar.gz"]
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 nfpms:
   - id: default
