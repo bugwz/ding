@@ -69,9 +69,6 @@ brews:
     commit_author:
       name: bugwz
       email: xbugwz@gmail.com
-    url_headers:
-      - "Accept: application/octet-stream"
-      - 'Authorization: bearer #{ENV["HOMEBREW_DING_TOKEN"]}'
     directory: Formula
     homepage: https://github.com/bugwz/homebrew-ding
     description: "Ding CLI tool"
@@ -84,3 +81,4 @@ brews:
       owner: bugwz
       name: homebrew-ding
       branch: main
+      token: "{{.Env.HOMEBREW_DING_TOKEN }}"
